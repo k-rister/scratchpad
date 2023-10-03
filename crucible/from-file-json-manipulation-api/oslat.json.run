@@ -1,0 +1,116 @@
+{
+  "benchmarks": [
+    {
+      "name": "oslat",
+      "ids": "1",
+      "mv-params": {
+        "global-options": [
+          {
+            "name": "global",
+            "params": [
+              {
+                "arg": "duration",
+                "vals": [
+                  "60"
+                ],
+                "role": "client"
+              },
+              {
+                "arg": "rtprio",
+                "vals": [
+                  "1"
+                ],
+                "role": "client"
+              },
+              {
+                "arg": "smt",
+                "vals": [
+                  "off"
+                ],
+                "role": "client"
+              },
+              {
+                "arg": "trace-control",
+                "vals": [
+                  "1"
+                ],
+                "role": "client",
+                "enabled": "no"
+              },
+              {
+                "arg": "trace-markers",
+                "vals": [
+                  "1"
+                ],
+                "role": "client",
+                "enabled": "no"
+              }
+            ]
+          }
+        ],
+        "sets": [
+          {
+            "include": "global",
+            "params": []
+          }
+        ]
+      }
+    }
+  ],
+  "tool-params": [],
+  "tags": {
+    "clients": "1",
+    "stress-ng": "yes",
+    "endpoint": "remotehost",
+    "distro": "centosstream9-rt",
+    "tuned": "cpu-partitioning",
+    "userenv": "default",
+    "osruntime": "podman",
+    "stress-ng_osruntime": "chroot"
+  },
+  "endpoints": [
+    {
+      "type": "remotehost",
+      "host": "192.168.12.169",
+      "user": "root",
+      "client": "1",
+      "userenv": "default",
+      "osruntime": "podman",
+      "config": [
+        {
+          "settings": {
+            "osruntime": "chroot"
+          },
+          "targets": [
+            {
+              "role": "server",
+              "ids": "1"
+            }
+          ]
+        },
+        {
+          "settings": {
+            "cpu-partitioning": "0"
+          },
+          "targets": [
+            {
+              "role": "server",
+              "ids": "1"
+            }
+          ]
+        },
+        {
+          "settings": {
+            "cpu-partitioning": "1"
+          },
+          "targets": "default"
+        }
+      ],
+      "server": "1"
+    }
+  ],
+  "run-params": {
+    "num-samples": "3",
+    "max-sample-failures": "3"
+  }
+}
