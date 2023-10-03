@@ -1,0 +1,78 @@
+{
+    "benchmarks": [
+	{
+	    "name": "oslat",
+	    "ids": "1",
+	    "mv-params": {
+		"global-options": [
+		    {
+			"name": "global",
+			"params": [
+			    { "arg": "duration", "vals": [ "60" ], "role": "client" },
+			    { "arg": "rtprio", "vals": [ "1" ], "role": "client" },
+			    { "arg": "smt", "vals": [ "off" ], "role": "client" },
+			    { "arg": "trace-control", "vals": [ "1" ], "role": "client", "enabled": "no" },
+			    { "arg": "trace-markers", "vals": [ "1" ], "role": "client", "enabled": "no" }
+			]
+		    }
+		],
+		"sets": [
+		    {
+			"include": "global",
+			"params": [
+			]
+		    }
+		]
+	    }
+	}
+    ],
+    "tool-params": [
+	{
+	    "tool": "procstat",
+	    "enabled": "no"
+	},
+	{
+	    "tool": "sysstat",
+	    "enabled": "no",
+	    "params": [
+		{ "arg": "subtools", "val": "mpstat" }
+            ]
+	},
+	{
+	    "tool": "rt-trace-bpf",
+	    "enabled": "no"
+	},
+	{
+	    "tool": "kernel",
+	    "enabled": "no",
+	    "params": [
+		{ "arg": "subtools", "val": "sysfs-trace" },
+
+		{ "arg": "sysfs-trace-setup", "val": "echo 0000fefe > tracing_cpumask" },
+		{ "arg": "sysfs-trace-setup", "val": "echo 524288 > buffer_size_kb" },
+		{ "arg": "sysfs-trace-setup", "val": "echo function_graph > current_tracer" },
+		{ "arg": "sysfs-trace-setup", "val": "echo 5 > max_graph_depth" },
+		{ "arg": "sysfs-trace-setup", "val": "echo > set_event" },
+		{ "arg": "sysfs-trace-setup", "val": "echo 1 > options/funcgraph-abstime" },
+		{ "arg": "sysfs-trace-setup", "val": "echo 1 > options/funcgraph-proc" },
+
+		{ "arg": "sysfs-trace-cleanup", "val": "echo ffffffff > tracing_cpumask" },
+		{ "arg": "sysfs-trace-cleanup", "val": "echo nop > current_tracer" },
+		{ "arg": "sysfs-trace-cleanup", "val": "echo 0 > options/funcgraph-abstime" },
+		{ "arg": "sysfs-trace-cleanup", "val": "echo 0 > options/funcgraph-proc" },
+
+		{ "arg": "sysfs-trace-collection", "val": "per-cpu" }
+	    ]
+	}
+    ],
+    "tags": {
+
+    },
+    "endpoints": [
+
+    ],
+    "run-params": {
+	"num-samples": "1",
+	"max-sample-failures": "1"
+    }
+}
